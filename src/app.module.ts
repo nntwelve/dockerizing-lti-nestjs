@@ -14,9 +14,8 @@ import { join } from 'path';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config_service: ConfigService) => ({
-        uri: `${config_service.get<string>(
-          'DATABASE_URI',
-        )}/${config_service.get<string>('DATABASE_API_NAME')}`,
+        uri: config_service.get<string>('DATABASE_URI'),
+        dbName: config_service.get<string>('DATABASE_API_NAME'),
       }),
       inject: [ConfigService],
     }),

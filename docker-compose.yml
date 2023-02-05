@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  nestjs-dev:
+    build:
+      context: .
+      target: development
+    command: npm run start:dev
+    container_name: nestjs-dev
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3333:3333"
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+    depends_on:
+      - mongodb
+  nestjs-prod:
+    build:
+      context: .
+      target: production
+    container_name: nestjs-prod
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3333:3333"
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "27022:27017"
+    expose:
+      - 27017
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      # - .:/app
+      - ./mongo-data:/data/db
+networks:
+  app-network:
+    driver: bridge
+
