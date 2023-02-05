@@ -10,20 +10,10 @@
 
 `git submodule update --recursive --remote`
 
-## Build front end
+## Run development server
 
-`cd front-end && npm install`
+`npm run docker:dev`
 
-`npm run build`
+## Run production server
 
-## Copy built content into client folder
-
-`cd ..`
-
-`npm run preserve`
-
-`cp -r front-end/build/* client`
-
-## Start dev server
-
-`npm run start:dev`
+`npm run docker:prod`
